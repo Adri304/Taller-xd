@@ -33,10 +33,32 @@ public class PlayerStats : MonoBehaviour
             currentHealth = maxHealth;
     }
 
+    public void TakeDamage(float damage)
+    {
+        if (damage <= 0f)
+            return;
+
+        // Si hay escudo activo, bloquea el daño
+        if (isShieldActive)
+        {
+            isShieldActive = false;
+            Debug.Log("El escudo bloqueó el daño y se rompió");
+            return; // no se aplica daño a la vida
+        }
+
+        // Si no hay escudo, se aplica daño
+        currentHealth -= damage;
+
+        if (currentHealth < 0f)
+            currentHealth = 0f;
+
+        Debug.Log("Vida actual: " + currentHealth);
+    }
+
     public void SetSpeedMultiplier(float multiplier)
     {
         if (multiplier <= 0f) 
-        messageText.text = "Ingrese un valor válido";
+    
         return;
 
         speedMultiplier = multiplier;

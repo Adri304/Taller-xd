@@ -42,6 +42,15 @@ public class PowerUpUI : MonoBehaviour
     {
         if (!ValidateReferences()) return;
 
+        // SHIELD NO NECESITA VALOR
+        if (selectedPowerUp == PowerUpType.Shield)
+        {
+            if (!ValidateRules(1f)) return; // valor ficticio solo para mantener la lógica
+
+            ApplyPowerUp(1f);
+            return;
+        }
+
         if (!TryReadValue(out float value)) return;
 
         if (!ValidateRules(value)) return;
@@ -130,7 +139,8 @@ public class PowerUpUI : MonoBehaviour
                 break;
 
             case PowerUpType.DamageBoost:
-                messageText.text = $"Daño aumentado en: {value}";
+                playerStats.TakeDamage(value);
+                messageText.text = $"Recibiste {value} de daño. Vida actual: {playerStats.CurrentHealth}";
                 break;
         }
     }
